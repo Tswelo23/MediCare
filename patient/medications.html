@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Medications — MediCare</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="navbar-brand"><div class="brand-icon">➕</div>MediCare</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../services.html">Services</a></li>
+    <li><a href="../partners.html">Partners</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="book-appointment.html">Book Appointment</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Patient Dashboard</div>
+    <ul class="sidebar-nav">
+      <li><a href="dashboard.html"><span class="nav-icon">🌐</span> Dashboard</a></li>
+      <li><a href="book-appointment.html"><span class="nav-icon">📅</span> Book Appointment</a></li>
+      <li><a href="ai-recommendation.html"><span class="nav-icon">🤖</span> AI Recommendations</a></li>
+      <li><a href="appointments.html"><span class="nav-icon">📋</span> My Appointments</a></li>
+      <li><a href="medications.html" class="active"><span class="nav-icon">💊</span> My Medications</a></li>
+      <li style="margin-top:auto; padding-top:2rem;"><a href="#" onclick="logout()"><span class="nav-icon">🚪</span> Logout</a></li>
+    </ul>
+  </aside>
+
+  <main class="dashboard-content">
+    <div class="dashboard-header">
+      <div><h1>💊 My Medications</h1></div>
+      <button class="btn btn-accent" onclick="showAddModal()">➕ Add Medication</button>
+    </div>
+
+    <div class="dash-section">
+      <div class="dash-section-header">
+        <h3>💊 Current Medications</h3>
+        <span id="medCount" style="font-size:0.82rem; color:var(--text-muted);"></span>
+      </div>
+      <div class="dash-section-body" id="medsList"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ADD MODAL -->
+<div id="addModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; display:none; align-items:center; justify-content:center; padding:1rem;">
+  <div class="auth-card" style="max-width:420px;">
+    <div class="auth-title">
+      <span class="icon">💊</span>
+      <h2>Add Medication</h2>
+    </div>
+    <form onsubmit="handleAddMed(event)">
+      <div class="form-group">
+        <label class="form-label">Medicine Name</label>
+        <input type="text" id="medName" class="form-control" placeholder="e.g., Amoxicillin" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Dosage</label>
+          <input type="text" id="medDosage" class="form-control" placeholder="e.g., 500mg" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Frequency</label>
+          <input type="text" id="medTime" class="form-control" placeholder="e.g., Twice daily" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes (Optional)</label>
+        <input type="text" id="medNotes" class="form-control" placeholder="e.g., Take with food">
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary" style="flex:1;">Add Medication</button>
+        <button type="button" class="btn btn-outline" onclick="hideAddModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    requireAuth();
+    updateNav();
+    renderMeds();
+  });
+
+  function renderMeds() {
+    const meds = getMedications();
+    document.getElementById('medCount').textContent = `${meds.length} medication${meds.length !== 1 ? 's' : ''}`;
+    const el = document.getElementById('medsList');
+    if (!meds.length) {
+      el.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">💊</div>
+          <p>No medications added yet</p>
+          <button class="btn btn-primary" onclick="showAddModal()">Add Your First Medication</button>
+        </div>`;
+      return;
+    }
+    el.innerHTML = meds.map(m => `
+      <div class="med-card">
+        <span class="med-icon">💊</span>
+        <div class="med-info">
+          <div class="med-name">${m.name}</div>
+          <div class="med-detail">${m.dosage} · ${m.time}${m.notes ? ' · ' + m.notes : ''}</div>
+        </div>
+        <div class="med-toggle">
+          <button class="toggle-btn toggle-taken ${m.status === 'taken' ? 'active' : ''}" onclick="markMed(${m.id}, 'taken')">✅ Taken</button>
+          <button class="toggle-btn toggle-missed ${m.status === 'missed' ? 'active' : ''}" onclick="markMed(${m.id}, 'missed')">❌ Missed</button>
+          <button class="toggle-btn" style="background:rgba(107,114,128,0.1); color:var(--text-muted);" onclick="removeMed(${m.id})">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function markMed(id, status) {
+    updateMedStatus(id, status);
+    showToast(status === 'taken' ? 'Marked as taken ✅' : 'Marked as missed ❌', status === 'taken' ? 'success' : 'error');
+    renderMeds();
+  }
+
+  function removeMed(id) {
+    const meds = getMedications().filter(m => m.id != id);
+    localStorage.setItem('medibook_medications', JSON.stringify(meds));
+    showToast('Medication removed', 'info');
+    renderMeds();
+  }
+
+  function showAddModal() {
+    const modal = document.getElementById('addModal');
+    modal.style.display = 'flex';
+  }
+
+  function hideAddModal() {
+    document.getElementById('addModal').style.display = 'none';
+  }
+
+  function handleAddMed(e) {
+    e.preventDefault();
+    saveMedication({
+      name: document.getElementById('medName').value,
+      dosage: document.getElementById('medDosage').value,
+      time: document.getElementById('medTime').value,
+      notes: document.getElementById('medNotes').value
+    });
+    hideAddModal();
+    e.target.reset();
+    showToast('Medication added!', 'success');
+    renderMeds();
+  }
+</script>
+</body>
+</html>

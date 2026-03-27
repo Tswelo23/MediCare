@@ -1,0 +1,11 @@
+/about          /about.html          200
+/services       /services.html       200
+/partners       /partners.html       200
+/contact        /contact.html        200
+/login          /login.html          200
+/register       /register.html       200
+/patient/dashboard          /patient/dashboard.html          200
+/patient/book-appointment   /patient/book-appointment.html   200
+/patient/appointments       /patient/appointments.html       200
+/patient/medications        /patient/medications.html        200
+/patient/ai-recommendation  /patient/ai-recommendation.html  200

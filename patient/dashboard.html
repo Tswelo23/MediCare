@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — MediCare</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="navbar-brand"><div class="brand-icon">➕</div>MediCare</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../services.html">Services</a></li>
+    <li><a href="../partners.html">Partners</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="book-appointment.html">Book Appointment</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Patient Dashboard</div>
+    <ul class="sidebar-nav">
+      <li><a href="dashboard.html" class="active"><span class="nav-icon">🌐</span> Dashboard</a></li>
+      <li><a href="book-appointment.html"><span class="nav-icon">📅</span> Book Appointment</a></li>
+      <li><a href="ai-recommendation.html"><span class="nav-icon">🤖</span> AI Recommendations</a></li>
+      <li><a href="appointments.html"><span class="nav-icon">📋</span> My Appointments</a></li>
+      <li><a href="medications.html"><span class="nav-icon">💊</span> My Medications</a></li>
+      <li style="margin-top:auto; padding-top:2rem;"><a href="#" onclick="logout()"><span class="nav-icon">🚪</span> Logout</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dashboard-content">
+    <div class="dashboard-header">
+      <div>
+        <h1 id="welcomeMsg">Welcome!</h1>
+        <p style="color:var(--text-secondary); font-size:0.9rem;">Here's your health overview</p>
+      </div>
+      <a href="book-appointment.html" class="btn btn-accent">📅 Book New Appointment</a>
+    </div>
+
+    <div id="dashAlert"></div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <a href="book-appointment.html" class="quick-action">
+        <span class="qa-icon">📅</span>
+        <span class="qa-label">Book Appointment</span>
+      </a>
+      <a href="ai-recommendation.html" class="quick-action">
+        <span class="qa-icon">🤖</span>
+        <span class="qa-label">AI Recommend</span>
+      </a>
+      <a href="medications.html" class="quick-action">
+        <span class="qa-icon">💊</span>
+        <span class="qa-label">Medications</span>
+      </a>
+      <a href="../contact.html" class="quick-action">
+        <span class="qa-icon">🎧</span>
+        <span class="qa-label">Support</span>
+      </a>
+    </div>
+
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-card-icon primary">📅</div>
+        <div>
+          <div class="stat-card-value" id="totalAppts">0</div>
+          <div class="stat-card-label">Total Appointments</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon accent">💊</div>
+        <div>
+          <div class="stat-card-value" id="activeMeds">0</div>
+          <div class="stat-card-label">Active Medications</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon info">🎧</div>
+        <div>
+          <div class="stat-card-value">24/7</div>
+          <div class="stat-card-label">Support Available</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <div class="dash-section-header">
+        <h3>📅 Upcoming Appointments</h3>
+        <a href="appointments.html" class="btn btn-sm btn-outline">View All</a>
+      </div>
+      <div class="dash-section-body" id="upcomingAppts"></div>
+    </div>
+
+    <div class="dash-section">
+      <div class="dash-section-header">
+        <h3>💊 Current Medications</h3>
+        <a href="medications.html" class="btn btn-sm btn-outline">View All</a>
+      </div>
+      <div class="dash-section-body" id="currentMeds"></div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const user = requireAuth();
+    if (!user) return;
+
+    document.getElementById('welcomeMsg').textContent = `Welcome, ${user.firstName || user.email.split('@')[0]}!`;
+    updateNav();
+
+    // Check for login success
+    if (sessionStorage.getItem('justLoggedIn')) {
+      document.getElementById('dashAlert').innerHTML = '<div class="alert alert-success" style="margin-bottom:1.5rem;">✅ Logged in successfully. Welcome back!</div>';
+      sessionStorage.removeItem('justLoggedIn');
+    }
+
+    // Stats
+    const appts = getAppointments();
+    const meds = getMedications();
+    document.getElementById('totalAppts').textContent = appts.length;
+    document.getElementById('activeMeds').textContent = meds.filter(m => m.status !== 'stopped').length;
+
+    // Upcoming Appointments
+    const upcoming = appts.filter(a => a.status === 'upcoming').slice(0, 3);
+    const upcomingEl = document.getElementById('upcomingAppts');
+    if (upcoming.length) {
+      upcomingEl.innerHTML = upcoming.map(a => `
+        <div class="appointment-card">
+          <span class="appt-icon">📅</span>
+          <div class="appt-info">
+            <div class="appt-doctor">${a.doctor}</div>
+            <div class="appt-detail">${a.date} at ${a.time || 'TBD'} · ${a.reason || 'General visit'}</div>
+          </div>
+          <span class="appt-status upcoming">Upcoming</span>
+        </div>
+      `).join('');
+    } else {
+      upcomingEl.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📅</div>
+          <p>No upcoming appointments</p>
+          <a href="book-appointment.html" class="btn btn-primary">Book Your First Appointment</a>
+        </div>`;
+    }
+
+    // Medications
+    const activeMedsList = meds.filter(m => m.status !== 'stopped').slice(0, 3);
+    const medsEl = document.getElementById('currentMeds');
+    if (activeMedsList.length) {
+      medsEl.innerHTML = activeMedsList.map(m => `
+        <div class="med-card">
+          <span class="med-icon">💊</span>
+          <div class="med-info">
+            <div class="med-name">${m.name}</div>
+            <div class="med-detail">${m.dosage} · ${m.time}</div>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      medsEl.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">💊</div>
+          <p>No active medications</p>
+          <a href="medications.html" class="btn btn-primary">Add Medication</a>
+        </div>`;
+    }
+  });
+</script>
+</body>
+</html>

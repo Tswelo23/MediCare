@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — MediCare</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="navbar-brand"><div class="brand-icon">➕</div>MediCare</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="partners.html">Partners</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <a href="login.html" class="btn-nav btn-nav-outline">Login</a>
+    <a href="register.html" class="btn-nav btn-nav-solid">Register</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you. Reach out to our team anytime.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div>
+        <div class="card">
+          <div class="card-body" style="padding:2rem;">
+            <h2 style="font-size:1.5rem; margin-bottom:1.5rem; color:var(--text);">Send Us a Message</h2>
+            <div id="contactAlert"></div>
+            <form onsubmit="handleContact(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control" placeholder="Tswelo" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-control" placeholder="Setshedi" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="john@example.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Subject</label>
+                <input type="text" class="form-control" placeholder="How can we help you?" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" rows="5" placeholder="Tell us more about your inquiry..." required style="resize:vertical;"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full btn-lg">✉️ Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card mb-3">
+          <div class="card-body" style="padding:2rem;">
+            <h2 style="font-size:1.5rem; margin-bottom:1.5rem; color:var(--text);">Get In Touch</h2>
+            <div class="contact-info-item">
+              <div class="contact-icon-wrap">📞</div>
+              <div><h4>Phone</h4><p>+27 60-819-3350<br>Mon–Fri, 8am–6pm</p></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon-wrap">✉️</div>
+              <div><h4>Email</h4><p>tswelo33@gmail.com<br>We reply within 24 hours</p></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon-wrap">📍</div>
+              <div><h4>Address</h4><p>61 Plein ST, Sunnyside<br>Pretoria, 0190</p></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon-wrap">🕐</div>
+              <div><h4>Business Hours</h4><p>Monday – Friday: 8 AM – 6 PM<br>Saturday: 9 AM – 4 PM<br>Sunday & Public Holidays : 9 AM – 2 PM</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="padding:2rem;">
+            <h3 style="font-size:1.1rem; margin-bottom:1rem; color:var(--text);">Emergency Support</h3>
+            <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:1rem;">For medical emergencies, please call emergency services or visit the nearest hospital immediately.</p>
+            <div style="background: rgba(244,132,95,0.08); border:1px solid rgba(244,132,95,0.25); border-radius:12px; padding:1rem; text-align:center;">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">🚨</div>
+              <div style="font-size:1.4rem; font-weight:700; color:var(--accent);">Emergency: 911</div>
+              <div style="font-size:0.82rem; color:var(--text-muted);">Or visit your nearest emergency room</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div><div class="footer-brand">➕ MediCare</div><p class="footer-desc">Your trusted partner in healthcare.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li><li><a href="partners.html">Partners</a></li></ul></div>
+    <div class="footer-col"><h4>Contact Info</h4><div class="footer-contact-item"><span class="contact-icon">📞</span>+27 60-819-3350</div><div class="footer-contact-item"><span class="contact-icon">✉️</span>tswelo33@gmail.com</div><div class="footer-contact-item"><span class="contact-icon">📍</span>31 Plein ST,Sunnyside, Pretoria, 0190</div></div>
+  </div>
+  <div class="footer-bottom">© 2025 MediCare. All rights reserved.(Tswelopele Setshedi)</div>
+</footer>
+<script src="js/app.js"></script>
+<script>
+function handleContact(e) {
+  e.preventDefault();
+  const alert = document.getElementById('contactAlert');
+  alert.innerHTML = '<div class="alert alert-success">✅ Thank you! Your message has been sent. We\'ll respond within 24 hours.</div>';
+  e.target.reset();
+  showToast('Message sent successfully!', 'success');
+  setTimeout(() => { alert.innerHTML = ''; }, 5000);
+}
+</script>
+</body>
+</html>

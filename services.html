@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — MediCare</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .services-core { display: grid; grid-template-columns: repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
+    .specs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap:1rem; margin-bottom:3rem; }
+    .additional-grid { display: grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:3rem; }
+    @media(max-width:768px){ .services-core,.specs-grid{grid-template-columns:1fr;} .additional-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="navbar-brand"><div class="brand-icon">➕</div>MediCare</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="partners.html">Partners</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <a href="login.html" class="btn-nav btn-nav-outline">Login</a>
+    <a href="register.html" class="btn-nav btn-nav-solid">Register</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Our Services</h1>
+    <p>Comprehensive healthcare solutions designed to meet all your medical needs</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <div class="section-title fade-in-scroll"><h2>Core Services</h2></div>
+    <div class="services-core">
+      <div class="service-card-big fade-in-scroll">
+        <div class="service-icon">📅</div>
+        <h3>Appointment Booking</h3>
+        <p>Easy online appointment scheduling with qualified doctors across various specializations. Book, reschedule, or cancel with just a few clicks.</p>
+        <ul class="service-features">
+          <li>24/7 online booking</li>
+          <li>Real-time availability</li>
+          <li>Email confirmations</li>
+          <li>Reminder notifications</li>
+        </ul>
+      </div>
+      <div class="service-card-big fade-in-scroll stagger-1">
+        <div class="service-icon">🤖</div>
+        <h3>AI Doctor Recommendations</h3>
+        <p>Get intelligent doctor recommendations based on your symptoms and medical history. Our AI analyzes your needs to suggest the most suitable specialists.</p>
+        <ul class="service-features">
+          <li>Symptom analysis</li>
+          <li>Specialist matching</li>
+          <li>Experience-based ranking</li>
+          <li>Personalized suggestions</li>
+        </ul>
+      </div>
+      <div class="service-card-big fade-in-scroll stagger-2">
+        <div class="service-icon">💊</div>
+        <h3>Medication Management</h3>
+        <p>Comprehensive medication tracking and prescription management. Keep track of your medications, dosages, and get important reminders.</p>
+        <ul class="service-features">
+          <li>Prescription tracking</li>
+          <li>Dosage reminders</li>
+          <li>Side effect monitoring</li>
+          <li>Drug interaction alerts</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title fade-in-scroll"><h2>Medical Specializations</h2></div>
+    <div class="specs-grid">
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">❤️</div><div><h4>Cardiology</h4><p>Heart and cardiovascular system care</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">🧠</div><div><h4>Neurology</h4><p>Brain and nervous system disorders</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">🦴</div><div><h4>Orthopedics</h4><p>Bone, joint, and muscle care</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">👁️</div><div><h4>Ophthalmology</h4><p>Eye and vision care</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">👶</div><div><h4>Pediatrics</h4><p>Children's healthcare</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">👨‍⚕️</div><div><h4>General Medicine</h4><p>Primary healthcare services</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">🦷</div><div><h4>Dentistry</h4><p>Oral health and dental care</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">🩺</div><div><h4>Dermatology</h4><p>Skin conditions and treatments</p></div></div>
+      <div class="spec-card fade-in-scroll"><div class="spec-card-icon">🫁</div><div><h4>Pulmonology</h4><p>Lung and respiratory care</p></div></div>
+    </div>
+
+    <div class="section-title fade-in-scroll"><h2>Additional Services</h2></div>
+    <div class="additional-grid">
+      <div class="spec-card fade-in-scroll" style="padding:1.5rem;">
+        <div class="spec-card-icon" style="font-size:2rem;">✉️</div>
+        <div><h4>Email Notifications</h4><p>Automated email confirmations, reminders, and updates for all your healthcare activities.</p></div>
+      </div>
+      <div class="spec-card fade-in-scroll" style="padding:1.5rem;">
+        <div class="spec-card-icon" style="font-size:2rem;">🔒</div>
+        <div><h4>Secure Data Management</h4><p>Enterprise-grade security to protect your medical information and ensure HIPAA compliance.</p></div>
+      </div>
+      <div class="spec-card fade-in-scroll" style="padding:1.5rem;">
+        <div class="spec-card-icon" style="font-size:2rem;">📱</div>
+        <div><h4>Mobile Access</h4><p>Access your healthcare information and book appointments from any device, anywhere.</p></div>
+      </div>
+      <div class="spec-card fade-in-scroll" style="padding:1.5rem;">
+        <div class="spec-card-icon" style="font-size:2rem;">🎧</div>
+        <div><h4>24/7 Support</h4><p>Round-the-clock customer support to help you with any questions or issues.</p></div>
+      </div>
+    </div>
+
+    <div class="card fade-in-scroll">
+      <div class="card-body" style="padding:2rem;">
+        <div class="section-title" style="margin-bottom:2rem;"><h2>🔄 How It Works</h2></div>
+        <div class="steps-grid">
+          <div class="step-card"><div class="step-num">1</div><h3>Register</h3><p>Create your account and provide basic information</p></div>
+          <div class="step-card"><div class="step-num">2</div><h3>Find Doctor</h3><p>Use AI recommendations or browse specialists</p></div>
+          <div class="step-card"><div class="step-num">3</div><h3>Book Appointment</h3><p>Choose your preferred date and time</p></div>
+          <div class="step-card"><div class="step-num">4</div><h3>Get Care</h3><p>Attend your appointment and manage medications</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Experience Better Healthcare?</h2>
+    <p>Join thousands of patients using MediCare's comprehensive services.</p>
+    <div class="cta-btns">
+      <a href="register.html" class="btn btn-primary btn-lg">👤 Get Started</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">📞 Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div><div class="footer-brand">➕ MediCare</div><p class="footer-desc">Your trusted partner in healthcare.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li><li><a href="partners.html">Partners</a></li></ul></div>
+    <div class="footer-col"><h4>Contact Info</h4><div class="footer-contact-item"><span class="contact-icon">📞</span>+27 60-819-3350</div><div class="footer-contact-item"><span class="contact-icon">✉️</span>tswelo33@gmail.com</div><div class="footer-contact-item"><span class="contact-icon">📍</span>31 Plein ST,Sunnyside, Pretoria, 0190</div></div>
+  </div>
+  <div class="footer-bottom">© 2025 MediCare. All rights reserved.(Tswelopele Setshedi)</div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

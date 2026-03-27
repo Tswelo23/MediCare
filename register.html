@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — MediCare</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .password-strength { height: 4px; border-radius: 2px; margin-top: 6px; transition: all 0.3s; }
+    .strength-text { font-size: 0.78rem; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="navbar-brand"><div class="brand-icon">➕</div>MediCare</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="partners.html">Partners</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <a href="login.html" class="btn-nav btn-nav-outline">Login</a>
+    <a href="register.html" class="btn-nav btn-nav-solid">Register</a>
+  </div>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-title">
+      <span class="icon">👤</span>
+      <h2>Create Account</h2>
+      <p>Join MediCare to manage your health</p>
+    </div>
+
+    <div id="registerAlert"></div>
+
+    <form onsubmit="handleRegister(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <div class="input-icon-wrap">
+            <span class="icon">👤</span>
+            <input type="text" id="firstName" class="form-control" placeholder="John" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <div class="input-icon-wrap">
+            <span class="icon">👤</span>
+            <input type="text" id="lastName" class="form-control" placeholder="Smith" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <div class="input-icon-wrap">
+          <span class="icon">✉️</span>
+          <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <div class="input-icon-wrap">
+          <span class="icon">📞</span>
+          <input type="tel" id="phone" class="form-control" placeholder="+1 (555) 000-0000">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="password" class="form-control" placeholder="Create a strong password" required oninput="checkStrength(this.value)">
+          <button type="button" class="password-toggle" onclick="togglePassword('password')">👁️</button>
+        </div>
+        <div class="password-strength" id="strengthBar" style="background:var(--border);"></div>
+        <div class="strength-text text-muted" id="strengthText"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <div class="password-wrap">
+          <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+          <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Account Type</label>
+        <div class="select-wrap">
+          <select id="accountType" class="role-select">
+            <option value="patient">PATIENT</option>
+            <option value="doctor">DOCTOR</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg">👤 Create Account</button>
+    </form>
+
+    <div class="form-divider"><span>or</span></div>
+    <div class="form-footer">Already have an account? <a href="login.html">Login</a></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function togglePassword(id) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function checkStrength(val) {
+  const bar = document.getElementById('strengthBar');
+  const txt = document.getElementById('strengthText');
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const colors = ['', '#EF4444', '#F59E0B', '#2DB67D', '#0A7C6E'];
+  const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+  bar.style.width = (score * 25) + '%';
+  bar.style.background = colors[score] || 'var(--border)';
+  txt.textContent = val ? labels[score] || '' : '';
+  txt.style.color = colors[score] || 'var(--text-muted)';
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  const pwd = document.getElementById('password').value;
+  const cpwd = document.getElementById('confirmPassword').value;
+  const alertEl = document.getElementById('registerAlert');
+
+  if (pwd !== cpwd) {
+    alertEl.innerHTML = '<div class="alert alert-danger">❌ Passwords do not match.</div>';
+    return;
+  }
+
+  const user = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    role: document.getElementById('accountType').value
+  };
+
+  localStorage.setItem('medibook_user', JSON.stringify(user));
+  localStorage.setItem('medibook_registered', '1');
+  showToast('Account created successfully!', 'success');
+  setTimeout(() => window.location.href = 'login.html?registered=1', 800);
+}
+</script>
+</body>
+</html>
